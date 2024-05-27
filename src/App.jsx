@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import Todos from './components/Todos'; 
+import TodoForm from './components/TodoForm'
 
 function App() {
   const [todos, setTodos] = useState([
@@ -17,32 +18,27 @@ function App() {
       id: 3,
       title: 'Study React with Ninja Ken',
       completed: false,
-    },
-    
-    
-  ])
+    }
+  ]);
 
-  const toggleCompleted = (todoId) => {
-    const updatedTodos = todos.map((todo) => {
-      if (todo.id === todoId) {
-        todo.completed = !todo.completed
-      }
-      return todo
-    })
-    setTodos(updatedTodos)
-  }
+  const toggleCompleted = (id) => {
+    setTodos(todos.map(todo => 
+      todo.id === id ? { ...todo, completed: !todo.completed } : todo
+    ));
+  };
 
-  console.log(todos)
+  const deleteTodo = (id) => {
+    setTodos(todos.filter(todo => todo.id !== id));
+  };
+
+  console.log(todos);
 
   return (
     <div style={styles.container}>
       <h1 style={styles.title}>My Todo List</h1>
-      {/* Teruskan function toggleCompleted ke component Todos */}
-      <Todos todos={todos} toggleCompleted={toggleCompleted} />
+      <Todos todos={todos} toggleCompleted={toggleCompleted} deleteTodo={deleteTodo} />
     </div>
-  )
-
-  
+  );
 }
 
 const styles = {
@@ -53,7 +49,6 @@ const styles = {
   title: {
     fontSize: '36px',
   },
-}
+};
 
-
-export default App
+export default App;
